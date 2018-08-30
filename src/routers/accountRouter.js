@@ -21,7 +21,7 @@ accountRouter.post('/register',accountCTRl.register)
 accountRouter.get('/vcode',accountCTRl.getVcodeImage)
 
 //5. 传输登录数据给服务器,
-accountRouter.post('/register',accountCTRl.login)
+accountRouter.post('/login',accountCTRl.login)
 
 // 4.导出
 module.exports = accountRouter
