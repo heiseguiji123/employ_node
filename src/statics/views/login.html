@@ -60,27 +60,8 @@
     function register() {
         window.location.href = "/account/register"
     }
-
-    //点击登录时候 
-    function login() {
-        //1.获取到用户输入的信息
-        const username = $("#usernameId").val()
-        const password = md5($("#passwordId").val() + "!@#ZZZ-_-")
-        const vcode = $("#vcodeId").val();
-
-        //2.把获取的数据 传输到服务器
-        $.post('/account/login',{username,password,vcode},function(result){
-            // console.log(result)
-            if(result.status !==0){
-                // 重新 获取验证码
-                $("#vcodeimgId").attr("src",`/account/vcode?randomId=${Math.random()}`) 
-              alert(result.message)
-            }else{
-                window.location.href = "/studentmanger/list" 
-            }
-          
-        }) 
-    }
+  
+  
 
 </script>
 

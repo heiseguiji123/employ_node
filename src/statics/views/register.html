@@ -45,14 +45,9 @@
         const username = $("#usernameId").val()
         const password = md5($("#passwordId").val() + "!@#ZZZ-_-")
 
-        //2.发送请求给服务器
-        $.post("/account/register", {username,password}, function (result) {
-            if(result.status !==0){
-                alert(result.message)
-            }else{// 注册成功 跳转到登录页面
-                window.location.href='/account/login'
-            }
-        //    console.log(result)     
+       //2.发送请求 给服务器
+       $.post("/account/register",{username,password},function(result){
+            console.log(result)
         });
     }
 </script>
