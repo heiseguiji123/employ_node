@@ -17,5 +17,11 @@ accountRouter.get('/register',accountCTRl.getRegisterPage)
 //3.注册 请求
 accountRouter.post('/register',accountCTRl.register)
 
+//4.获取 图形验证码
+accountRouter.get('/vcode',accountCTRl.getVcodeImage)
+
+//5. 传输登录数据给服务器,
+accountRouter.post('/register',accountCTRl.login)
+
 // 4.导出
 module.exports = accountRouter

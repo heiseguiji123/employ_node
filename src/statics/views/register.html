@@ -47,7 +47,13 @@
 
        //2.发送请求 给服务器
        $.post("/account/register",{username,password},function(result){
-            console.log(result)
+            // console.log(result)
+            if(result.status!==0){
+              alert(result.message)   
+            }else{
+              window.location.href="/account/login"  
+              
+            }
         });
     }
 </script>

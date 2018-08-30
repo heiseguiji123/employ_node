@@ -60,8 +60,28 @@
     function register() {
         window.location.href = "/account/register"
     }
+
+    // 点击图片验证码  刷新验证码
+    $("#vcodeimgId").click(function(){
+        $("#vcodeimgId").attr("src",`/account/vcode?randomId=${Math.random()}`)
+    }) 
+
+    //点击登录页
+    function login(){
+        //1.获取到用户输入的信息
+        const username = $("#usernameId").val()
+        const password = md5($("#passwordId").val() + "!@#ZZZ-_-")
+        const vcode =$("#vcodeId").val()
+       //.2 传输数据 给服务器
+       $.post('/account/login',{username,password,vcode},function(result){
+           console.log(result)
+       })
+        
+    }
+      
+
   
-  
+
 
 </script>
 
