@@ -8,6 +8,8 @@ const url = 'mongodb://localhost:27017'
 // Database Name
 const dbName = 'szoffice'
 
+//连接 tools
+const databasetool = require(path.join(__dirname, '../tools/dataBaseTools.js'))
 
 /**
  * 最终处理  展示login 页面
@@ -90,40 +92,98 @@ exports.getVcodeImage = (req, res) => {
 /**
 * 最终处理，登录
 */
+// exports.login = (req, res) => {
+//     //默认的返回状态
+//     const result = { "status": 0, "message": "登录成功" }
+
+//     // 判断 vcode 是否正确
+//     if (req.body.vcode != req.session.vcode) {
+//         result.status = 1;
+//         result.message = "验证码不正确";
+//         // 返回结果
+//         res.json(result);
+//         // 结束 运行
+//         return
+//     }
+//     // 判断数据库中间有这组数据
+//     // Use connect method to connect to the server
+//     MongoClient.connect(url,
+//         { useNewUrlParser: true },
+//         function (err, client) {
+//             const db = client.db(dbName);
+//             const collection = db.collection('accountInfo');
+
+//             //先查询 数据库中间是不是有这个账号名 
+//             collection.findOne({ username: req.body.username, password: req.body.password }, function (err, doc) {
+//                 client.close();//关闭数据库
+//                 if (doc == null) {
+//                     result.status = 2;
+//                     result.message = "用户名和密码有误";
+//                     //返回 数据给浏览器 
+//                 }else{//登录成功
+//                     req.session.loginName=req.body.username
+//                 }
+//                 res.json(result)
+//             });
+
+//         })
+// }
+
+
 exports.login = (req, res) => {
-    //默认的返回状态
-    const result = { "status": 0, "message": "登录成功" }
+     //默认的返回状态
+     const result = { "status": 0, "message": "登录成功" }
 
-    // 判断 vcode 是否正确
-    if (req.body.vcode != req.session.vcode) {
-        result.status = 1;
-        result.message = "验证码不正确";
-        // 返回结果
-        res.json(result);
-        // 结束 运行
-        return
-    }
-    // 判断数据库中间有这组数据
-    // Use connect method to connect to the server
-    MongoClient.connect(url,
-        { useNewUrlParser: true },
-        function (err, client) {
-            const db = client.db(dbName);
-            const collection = db.collection('accountInfo');
+     // 判断 vcode 是否正确
+     if (req.body.vcode != req.session.vcode) {
+         result.status = 1;
+         result.message = "验证码不正确";
+         // 返回结果
+         res.json(result);
+         // 结束 运行
+         return
+     }  
+     
 
-            //先查询 数据库中间是不是有这个账号名 
-            collection.findOne({ username: req.body.username, password: req.body.password }, function (err, doc) {
-                client.close();//关闭数据库
-                if (doc == null) {
-                    result.status = 2;
-                    result.message = "用户名和密码有误";
-                    //返回 数据给浏览器 
-                }else{//登录成功
-                    req.session.loginName=req.body.username
-                }
-                res.json(result)
-            });
-
+    databasetool.findOne(
+          // 判断数据库中间有这组数据
+          'accountInfo',
+        {username: req.body.username, password: req.body.password }, 
+        function (err, doc) {
+            if (doc == null) {
+                result.status = 2;
+                result.message = "用户名和密码有误";
+                //返回 数据给浏览器 
+            }else{//登录成功
+                req.session.loginName=req.body.username
+            }
+            res.json(result)
         })
-}
+    }
+         // 判断数据库中间有这组数据
+    // // Use connect method to connect to the server
+    // MongoClient.connect(url,
+    //     { useNewUrlParser: true },
+    //     function (err, client) {
+    //         const db = client.db(dbName);
+    //         const collection = db.collection('accountInfo');
+
+    //         //先查询 数据库中间是不是有这个账号名 
+    //         collection.findOne({ username: req.body.username, password: req.body.password }, function (err, doc) {
+    //             client.close();//关闭数据库
+    //             if (doc == null) {
+    //                 result.status = 2;
+    //                 result.message = "用户名和密码有误";
+    //                 //返回 数据给浏览器 
+    //             }else{//登录成功
+    //                 req.session.loginName=req.body.username
+    //             }
+    //             res.json(result)
+    //         });
+
+    //     })
+
+
+
+
 
