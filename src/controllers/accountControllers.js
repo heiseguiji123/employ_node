@@ -184,6 +184,12 @@ exports.login = (req, res) => {
     //     })
 
 
-
-
+/**
+ * 退出登录
+ */
+exports.logout=(req,res)=>{
+      // 清空session中的loginedname
+     req.session.loginName==null;
+     res.send("<script> window.location.href='/account/login'</script>")
+}
 
