@@ -75,3 +75,25 @@ exports.findOne=(collectionName,params,callback)=>{
             })
         })
 }
+
+
+/**
+ * 更新 信息
+ */
+exports.updateList=(collectionName,condition,params,callback)=>{
+    MongoClient.connect(url,
+        { useNewUrlParser: true },
+        function (err, client) {
+            // 拿到db对象
+            const db = client.db(dbName);
+            // 拿到集合
+            const collection = db.collection(collectionName);
+            // 查询
+            collection.updateOne(condition,{$set:params},(err,result) => {
+                // 关闭与数据库的连接 
+                client.close();
+                //把结果返回给 控制器
+                callback(err, result)
+            })
+        })
+}

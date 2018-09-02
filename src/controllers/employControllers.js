@@ -87,6 +87,16 @@ exports.editListpage = (req, res) => {
 
 //5. 提交修改信息
 exports.editList = (req, res) => {
-
-}
+    databasetool.updateList(
+        'employInfo',
+        { _id:  databasetool.ObjectId(req.params.employId) },  
+        req.body,
+        (err, result) => {
+            if(result==null){//修改失败
+                res.send("<script>alert('修改失败')</script>")
+            }else{
+                res.send("<script>window.location.href='/employ/list'</script>")  
+            }
+        }
+ )}
 
