@@ -46,10 +46,9 @@ exports.insertList=(collectionName,params,callback)=>{
                 // 关闭与数据库的连接 
                 client.close();
                 callback(err, result)
-            }
-            )
+            })
         })
     } 
-}
+
 
 

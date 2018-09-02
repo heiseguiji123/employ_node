@@ -60,7 +60,7 @@ exports.addList=(req,res)=>{
 //增加数据
 exports.addListData=(req,res)=>{
     // 定义一个函数
-    databasetool.insertList('employInfo', req.boy, (err, result) => { 
+    databasetool.insertList('employInfo', req.body, (err, result) => { 
         if(err){//插入失败
             res.send("<script>alert('插入失败')</script>")
         }else{
