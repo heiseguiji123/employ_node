@@ -18,5 +18,11 @@ employRouter.get('/add',employCTRl.addList)
 //3.新增加
 employRouter.post('/add',employCTRl.addListData)
  
+//4.修改信息页面 
+employRouter.get('/edit/:employId',employCTRl.editListpage)
+
+//5. 提交修改信息
+employRouter.post('/edit/:employId',employCTRl.editList)
+
 // 4.导出
 module.exports = employRouter

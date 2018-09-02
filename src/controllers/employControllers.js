@@ -3,7 +3,7 @@ const xtpl = require('xtpl')
 
 
 //连接 tools
-const databasetool=require(path.join(__dirname,'../tools/dataBaseTools.js')) 
+const databasetool = require(path.join(__dirname, '../tools/dataBaseTools.js'))
 
 /**
  * 最终处理，返回获取到的员工列表页面
@@ -37,7 +37,7 @@ exports.getList = (req, res) => {
         xtpl.renderFile(path.join(__dirname, '../statics/views/list.html'), {
             employs: docs,
             keyword,
-            loginName:req.session.loginName
+            loginName: req.session.loginName
         }, function (error, content) {
             res.send(content)
         });
@@ -46,25 +46,47 @@ exports.getList = (req, res) => {
 }
 
 
-exports.addList=(req,res)=>{
-      // res.send("这是学生列表新增页面,待完善...")
-      //z直接渲染
-        xtpl.renderFile(path.join(__dirname, '../statics/views/add.html'), {
-            loginName:req.session.loginName
-        }, function (error, content) {
-            res.send(content)
-        });
+exports.addList = (req, res) => {
+    // res.send("这是学生列表新增页面,待完善...")
+    //z直接渲染
+    xtpl.renderFile(path.join(__dirname, '../statics/views/add.html'), {
+        loginName: req.session.loginName
+    }, function (error, content) {
+        res.send(content)
+    });
 }
 
 
 //增加数据
-exports.addListData=(req,res)=>{
+exports.addListData = (req, res) => {
     // 定义一个函数
-    databasetool.insertList('employInfo', req.body, (err, result) => { 
-        if(err){//插入失败
+    databasetool.insertList('employInfo', req.body, (err, result) => {
+        if (err) {//插入失败
             res.send("<script>alert('插入失败')</script>")
-        }else{
+        } else {
             res.send("<script>window.location.href='/employ/list'</script>")
-        }    
+        }
     })
 }
+
+//4.修改信息页面展示
+exports.editListpage = (req, res) => {
+ 
+    databasetool.findOne('employInfo',
+        { _id:  databasetool.ObjectId(req.params.employId) },
+        (err, doc) => {
+            //渲染
+            xtpl.renderFile(path.join(__dirname, '../statics/views/edit.html'), {
+                loginName: req.session.loginName,
+                employ:doc
+            }, function (error, content) {
+                res.send(content)
+            });
+        })
+}
+
+//5. 提交修改信息
+exports.editList = (req, res) => {
+
+}
+
