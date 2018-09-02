@@ -100,3 +100,17 @@ exports.editList = (req, res) => {
         }
  )}
 
+
+ //6. 删除某一项
+ exports.deleteList=(req,res)=>{
+    databasetool.deleteList(
+        'employInfo',
+        { "_id": databasetool.ObjectId(req.params.employId) },  
+        (err, result) => {
+            if(result==null){//修改失败
+                res.send("<script>alert('删除成功')</script>")
+            }else{
+                res.send("<script>window.location.href='/employ/list'</script>")  
+            }
+        })
+ }

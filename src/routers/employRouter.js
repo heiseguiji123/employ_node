@@ -24,5 +24,8 @@ employRouter.get('/edit/:employId',employCTRl.editListpage)
 //5. 提交修改信息
 employRouter.post('/edit/:employId',employCTRl.editList)
 
+//6.删除 数据项
+employRouter.get('/delete/:employId',employCTRl.deleteList)
+
 // 4.导出
 module.exports = employRouter

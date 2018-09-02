@@ -97,3 +97,24 @@ exports.updateList=(collectionName,condition,params,callback)=>{
             })
         })
 }
+
+/**
+ * 删除
+ */
+exports.deleteList=(collectionName,condition,callback)=>{
+    MongoClient.connect(url,
+        { useNewUrlParser: true },
+        function (err, client) {
+            // 拿到db对象
+            const db = client.db(dbName);
+            // 拿到集合
+            const collection = db.collection(collectionName);
+            // 查询
+            collection.deleteOne(condition,(err,result) => {
+                // 关闭与数据库的连接 
+                client.close();
+                //把结果返回给 控制器
+                callback(err, result)
+            })
+        })
+}
