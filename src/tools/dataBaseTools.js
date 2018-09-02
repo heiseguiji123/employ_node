@@ -9,13 +9,8 @@ const url = 'mongodb://localhost:27017';
 const dbName = 'szoffice';
 
 
-/**
- * 最终处理 渲染数据库的 数据 list
- * collectionName--数据表 名字
- * parmas--数据内容
- * callback--返回内容
- */
-exports.findList = (collectionName, params, callback) => {
+//尝试 封装
+const connectDB=(collectionName,callback)=>{
     MongoClient.connect(url,
         { useNewUrlParser: true },
         function (err, client) {
@@ -23,16 +18,49 @@ exports.findList = (collectionName, params, callback) => {
             const db = client.db(dbName);
             // 拿到集合
             const collection = db.collection(collectionName);
-            // 查询
-            collection.find(params).toArray((err, docs) => {
-                // console.log(docs)
-                // 关闭与数据库的连接 
-                client.close();
-                callback(err, docs)
-            }
-            )
+          
+            callback(err, client,collection)
         })
+}
+
+exports.findList = (collectionName, params, callback) => {
+      connectDB(collectionName,(err, client,collection)=>{
+        collection.find(params).toArray((err, docs) => {
+            // console.log(docs)
+            // 关闭与数据库的连接 
+            client.close();
+            callback(err, docs)
+        }) 
+      })
     }
+
+
+
+
+/**
+ * 最终处理 渲染数据库的 数据 list
+ * collectionName--数据表 名字
+ * parmas--数据内容
+ * callback--返回内容
+ */
+// exports.findList = (collectionName, params, callback) => {
+//     MongoClient.connect(url,
+//         { useNewUrlParser: true },
+//         function (err, client) {
+//             // 拿到db对象
+//             const db = client.db(dbName);
+//             // 拿到集合
+//             const collection = db.collection(collectionName);
+//             // 查询
+//             collection.find(params).toArray((err, docs) => {
+//                 // console.log(docs)
+//                 // 关闭与数据库的连接 
+//                 client.close();
+//                 callback(err, docs)
+//             }
+//             )
+//         })
+//     }
 /**
  * 新增数据
  */
