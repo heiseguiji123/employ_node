@@ -1,7 +1,6 @@
 const path = require('path')
 const captchapng = require('captchapng');
 
-
 //链接数据
 const MongoClient = require('mongodb').MongoClient;
 const url = 'mongodb://localhost:27017'
@@ -99,32 +98,32 @@ exports.login = (req, res) => {
     if (req.body.vcode != req.session.vcode) {
         result.status = 1;
         result.message = "验证码不正确";
-        
-      // 返回结果
-       res.json(result);
-       // 结束 运行
-       return
+        // 返回结果
+        res.json(result);
+        // 结束 运行
+        return
     }
-
     // 判断数据库中间有这组数据
     // Use connect method to connect to the server
     MongoClient.connect(url,
-        {useNewUrlParser:true},
-         function (err, client) {
-        const db = client.db(dbName);
-        const collection = db.collection('accountInfo');
+        { useNewUrlParser: true },
+        function (err, client) {
+            const db = client.db(dbName);
+            const collection = db.collection('accountInfo');
 
-        //先查询 数据库中间是不是有这个账号名 
-
-        collection.findOne({ username: req.body.username, password: req.body.password }, function (err, doc) {
-            client.close();//关闭数据库
-            if (doc == null) {          
-                result.status = 2;
-                result.message = "用户名和密码有误";
-                //返回 数据给浏览器 
-            } 
+            //先查询 数据库中间是不是有这个账号名 
+            collection.findOne({ username: req.body.username, password: req.body.password }, function (err, doc) {
+                client.close();//关闭数据库
+                if (doc == null) {
+                    result.status = 2;
+                    result.message = "用户名和密码有误";
+                    //返回 数据给浏览器 
+                }else{//登录成功
+                    req.session.loginName=req.body.username
+                }
                 res.json(result)
-    })
+            });
 
-    });
+        })
 }
+

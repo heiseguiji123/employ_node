@@ -74,15 +74,17 @@
         const vcode =$("#vcodeId").val()
        //.2 传输数据 给服务器
        $.post('/account/login',{username,password,vcode},function(result){
-              console.log(result)
+            //   console.log(result)
+             $("#vcodeimgId").attr("src",`/account/vcode?randomId=${Math.random()}`)
+            if(result.status!=0){
+                console.log(result)  
+            }else{
+                window.location.href="/employ/list"
+            }
+
        })
         
     }
-      
-
-  
-
-
+    
 </script>
-
 </html>
